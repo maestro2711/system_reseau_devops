@@ -1,3 +1,6 @@
 # system_reseau_devops
-  # hostname configuration after Server installation
- . 
+
+1. hostname configuration \
+ after install the Server, I defined an confortable hostname 
+
+
