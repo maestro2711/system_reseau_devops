@@ -39,15 +39,15 @@ c est a dire qu on affiche  le resultat de "top une fois et arrete.
 avec `` | grep "Cpu(s)" `` on affiche uniquement laligne commencant par "Cpu(s) car par defaut "top" affiche un ecran avec plusieurs colonnes.
  en affichant plusieurs colonnes, cela n est facile pour faire des calculs, c est pourquoi on utile `` | awk pour extraire des colonnes afin de faciliter les calculs.
  d ou la commande ci-apres:
- `` | awk '{print (100 -$5)}``. $1 ....$8 correspondent aux number de colonnes.pour le calcul du %cpu on a besoin du %id(iddle) et il se trouve a la colonne 5.
+ `` | awk '{print (100 -$8)}``. $1 ....$8 correspondent aux number de colonnes.pour le calcul du %cpu on a besoin du %id(iddle) et il se trouve a la colonne 8.
  ## le meme principe s applique pour le calcul de la memoire:
  '''
   echo "Checking memory usage..."
-if [ $(free  | grep "Mem" | awk '{print $3/$2 * 100.0}') -gt $SEUIL_MEM ]; then 
-    echo "Memory usage is above the threshold. Sending notification..."
-    mail -s "Memory Usage Alert" asmitterandyahoo.fr
+if [ "$MEM_UTIL" -gt "$SEUIL_MEM" ]; then
+    echo "Memory usage is above the threshold($MEM_UTIL%). Sending notification..."
+    mail -s "Memory Usage Alert" asmitterand@yahoo.fr
 else
-    echo "Memory usage is within the normal range."
+    echo "Memory usage is within the normal range()."
 fi
 ```
 concernant les colonnes, $2--> correspond a la ram total, $3--> a la ram utilisee
