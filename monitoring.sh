@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script is used to monitor the status of the server and send notifications if there are any issues.
-SEUIL= 10 # Set the threshold for CPU usage
+SEUIL=10 # Set the threshold for CPU usage
 SEUIL_MEM=10
 CPU_UTIL=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
 MEM_UTIL=$(free | grep Mem | awk '{printf "%.0f", $3/$2*100}')
