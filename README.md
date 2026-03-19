@@ -1,6 +1,3 @@
-# system_reseau_devops
-
-1. hostname configuration \
- after install the Server, I defined an confortable hostname 
-
-
+## System and security
+1 . hostname changed
+`after installing the server a most confortable hostname muss be giving'
