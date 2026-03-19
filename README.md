@@ -16,3 +16,6 @@
 ## activer seulement l access ssh
 ````
     PubKeyAuthentification  yes ````
+
+## Server Performance Monitoring( CPU, RAM)
+
