@@ -33,6 +33,7 @@ else
     echo "CPU usage is within the normal range."
 fi
 ````
+###
 ici on definis d abord un seuil de % qu on souhaite ne pas depasse. avec la commande "top" on visualise les processus en cours, etant donner que top un interactif(il reste ouvert), on ajoute l option "bn1( non interactif)
 c est a dire qu on affiche  le resultat de "top une fois et arrete.
 avec `` | grep "Cpu(s)" `` on affiche uniquement laligne commencant par "Cpu(s) car par defaut "top" affiche un ecran avec plusieurs colonnes.
