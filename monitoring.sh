@@ -10,7 +10,8 @@ if (( $(echo "$CPU_UTIL > $SEUIL" | bc -l) )); then
     echo "CPU usage is above the threshold.($CPU_UTIL%) Sending notification..."
 
     # Here you can add the code to send a notification, such as an email or a message to a monitoring system.
-    mail -s "CPU Usage Alert" asmitterand@yahoo.fr
+    #mail -s "CPU Usage Alert" asmitterand@yahoo.fr
+    echo "Notification sent."
 else
     echo "CPU usage is within the normal range."
 fi
@@ -19,7 +20,8 @@ fi
 echo "Checking memory usage..."
 if [ "$MEM_UTIL" -gt "$SEUIL_MEM" ]; then
     echo "Memory usage is above the threshold($MEM_UTIL%). Sending notification..."
-    mail -s "Memory Usage Alert" asmitterand@yahoo.fr
+    #mail -s "Memory Usage Alert" asmitterand@yahoo.fr
+    echo "Notification sent."
 else
     echo "Memory usage is within the normal range()."
 fi
