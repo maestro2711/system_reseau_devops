@@ -25,3 +25,15 @@ if [ "$MEM_UTIL" -gt "$SEUIL_MEM" ]; then
 else
     echo "Memory usage is within the normal range()."
 fi
+
+# Disk space monitoring
+SEUIL_DISK=80  # Set the threshold for disk usage (80%)
+DISK_UTIL=$(df / | awk 'NR==2 {printf "%.0f", $5}')
+echo "Checking disk usage..."
+if [ "$DISK_UTIL" -gt "$SEUIL_DISK" ]; then
+    echo "Disk usage is above the threshold ($DISK_UTIL%). Sending notification..."
+    #mail -s "Disk Usage Alert" asmitterand@yahoo.fr
+    echo "Notification sent."
+else
+    echo "Disk usage is within the normal range."
+fi
