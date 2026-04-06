@@ -30,7 +30,7 @@ take_action() {
 
             "LOG_CONFIG")
                 echo "$(date) - LOG issue on $path" >> "$LOG_FILE"
-                logrotate -f /etc/logrotate.conf
+                #logrotate -f /etc/logrotate.conf
                 ;;
 
             "OK")
