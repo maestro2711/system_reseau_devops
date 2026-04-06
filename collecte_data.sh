@@ -44,4 +44,3 @@ collect_data() {
 
     done
 }
-collect_data

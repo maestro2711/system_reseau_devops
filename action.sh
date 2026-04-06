@@ -10,7 +10,7 @@ take_action() {
             SAFE_PATH=$(echo "$path" | tr -d '/')
         fi
 
-        LOG_FILE="/var/tmp/monitor_$SAFE_PATH.log"
+        LOG_FILE="/tmp/monitor_$SAFE_PATH.log"
 
         case "${CAUSE[$path]}" in
 
@@ -30,7 +30,7 @@ take_action() {
 
             "LOG_CONFIG")
                 echo "$(date) - LOG issue on $path" >> "$LOG_FILE"
-                logrotate -f /etc/logrotate.conf
+                #logrotate -f /etc/logrotate.conf
                 ;;
 
             "OK")

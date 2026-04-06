@@ -1,12 +1,23 @@
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Report</title>
 <body>
-<h2>Alerte serveur</h2>
 
-<p>Disk: {{CURRENT_USAGE}}%</p>
-<p>Speed: {{SPEED}}</p>
-<p>Cause: {{CAUSE}}</p>
+<h2>Alert Server</h2>
 
-<pre>{{TOP_DIRS}}</pre>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr>
+<th>Filesystem</th>
+<th>Usage (%)</th>
+<th>Speed</th>
+<th>Cause</th>
+</tr>
+
+{{ROWS}}
+
+</table>
 
 </body>
 </html>

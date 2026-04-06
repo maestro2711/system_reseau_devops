@@ -3,17 +3,18 @@ BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 # 🔹 charger modules
 source "$BASE_DIR/collecte_data.sh"
 source "$BASE_DIR/analyse_data.sh"
-source "$BASE_DIR/take_action.sh"
+source "$BASE_DIR/action.sh"
 source "$BASE_DIR/manage_lvm.sh"
 source "$BASE_DIR/send_mail.sh"
-# 🔹 variables globales
+source "$BASE_DIR/template.html"
+# 🔹 variables globalesssssssss
 declare -A USAGE
 declare -A SPEED
 declare -A CAUSE
 
 PATHS=("/" "/home" "/var")
 
-LOG_FILE="/var/log/monitor.log"
+LOG_FILE="/tmp/monitor.log"
 
 # 🔹 execution
 
@@ -23,7 +24,7 @@ analyze_data
 
 take_action
 
-# 🔥 LVM uniquement si nécessaire
+#  LVM uniquement si nécessaire
 for path in "${PATHS[@]}"; do
     if [ "${CAUSE[$path]}" = "USER" ] || [ "${CAUSE[$path]}" = "LOG_CONFIG" ]; then
         manage_lvm "$path"

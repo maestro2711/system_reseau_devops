@@ -6,7 +6,7 @@
         CURRENT=${USAGE[$path]}
         CURRENT_SPEED=${SPEED[$path]}
 
-        if [ "$CURRENT" -gt 90 ]; then
+        if [ "$CURRENT" -gt 10 ]; then
 
             # priorité vitesse (bug ou attaque)
             if [ "$CURRENT_SPEED" -gt 5 ]; then
