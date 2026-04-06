@@ -1,15 +1,45 @@
+#!/usr/bin/bash
+declare -A USAGE
+declare -A SPEED
 collect_data() {
-    CURRENT_USAGE=$(df -h / | awk 'NR==2 {print $5}' | tr -d '%')
 
-    PREVIOUS_USAGE=$(cat /tmp/disk_usage 2>/dev/null)
+    PATHS=("/" "/home" "/var")
 
-    if [ -z "$PREVIOUS_USAGE" ]; then
-        PREVIOUS_USAGE=$CURRENT_USAGE
-    fi
+    
 
-    SPEED=$((CURRENT_USAGE - PREVIOUS_USAGE))
+    for path in "${PATHS[@]}"; do
 
-    TOP_DIRS=$(du -h / | sort -hr | head)
+        # 🔹 sécuriser nom du path
+        if [ "$path" = "/" ]; then
+            SAFE_PATH="root"
+        else
+            SAFE_PATH=$(echo "$path" | tr -d '/')
+        fi
 
-    echo "$CURRENT_USAGE" > /tmp/disk_usage
+        STATE_FILE="/var/tmp/monitor_$SAFE_PATH"
+
+        # 🔹 usage actuel
+        CURRENT_USAGE=$(df -h "$path" | awk 'NR==2 {print $5}' | tr -d '%')
+
+        # 🔹 usage précédent
+        PREVIOUS_USAGE=$(cat "$STATE_FILE" 2>/dev/null)
+
+        if [ -z "$PREVIOUS_USAGE" ]; then
+            PREVIOUS_USAGE=$CURRENT_USAGE
+        fi
+
+        # 🔹 vitesse
+        SPEED_VALUE=$((CURRENT_USAGE - PREVIOUS_USAGE))
+
+        # 🔹 stockage dans tableaux
+        USAGE["$path"]=$CURRENT_USAGE
+        SPEED["$path"]=$SPEED_VALUE
+
+        # 🔹 sauvegarde état
+        echo "$CURRENT_USAGE" > "$STATE_FILE"
+
+        # 🔹 affichage debug
+        echo "$path → usage: ${USAGE[$path]}% | speed: ${SPEED[$path]}"
+
+    done
 }
