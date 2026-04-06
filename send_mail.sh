@@ -19,7 +19,7 @@ send_mail() {
 </tr>"
     done
 
-    HTML=$(echo "$HTML" | sed "s//{{ROWS}}/$ROWS/g")
+    HTML=$(echo "HTML=${HTML//\{\{ROWS\}\}/$ROWS}")
 
     echo "$HTML" | mail -a "Content-type: text/html" -s "Monitoring Report" "$EMAIL"
 }
