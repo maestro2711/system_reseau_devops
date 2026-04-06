@@ -1,6 +1,3 @@
-#! /bin/bash
-
-#tesssssss
 send_mail() {
 
     TEMPLATE="template.html"
@@ -11,15 +8,18 @@ send_mail() {
     ROWS=""
 
     for path in "${PATHS[@]}"; do
+
         ROWS+="<tr>
 <td>$path</td>
 <td>${USAGE[$path]}</td>
 <td>${SPEED[$path]}</td>
 <td>${CAUSE[$path]}</td>
 </tr>"
+
     done
 
-    HTML=$(echo "HTML=${HTML//\{\{ROWS\}\}/$ROWS}")
+    # 🔥 remplacement sécurisé
+    HTML=${HTML//\{\{ROWS\}\}/$ROWS}
 
     echo "$HTML" | mail -a "Content-type: text/html" -s "Monitoring Report" "$EMAIL"
 }
