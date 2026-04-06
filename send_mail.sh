@@ -4,7 +4,7 @@
 send_mail() {
 
     TEMPLATE="template.html"
-    EMAIL="admin@example.com"
+    EMAIL="asmitterand@yahoo.fr"
 
     HTML=$(cat "$TEMPLATE")
 
