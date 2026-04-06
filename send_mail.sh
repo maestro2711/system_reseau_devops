@@ -1,15 +1,23 @@
-#!/bin/bash
+#! /bin/bash
 send_mail() {
 
     TEMPLATE="template.html"
-    EMAIL="asmitterand@yahoo.fr"
+    EMAIL="admin@example.com"
 
-    HTML=$(cat $TEMPLATE)
+    HTML=$(cat "$TEMPLATE")
 
-    HTML=$(echo "$HTML" | sed "s/{{CURRENT_USAGE}}/$CURRENT_USAGE/g")
-    HTML=$(echo "$HTML" | sed "s/{{SPEED}}/$SPEED/g")
-    HTML=$(echo "$HTML" | sed "s/{{CAUSE}}/$CAUSE/g")
-    HTML=$(echo "$HTML" | sed "s/{{TOP_DIRS}}/$TOP_DIRS/g")
+    ROWS=""
 
-    echo "$HTML" | mail -a "Content-type: text/html" -s "Alerte Monitoring" $EMAIL
+    for path in "${PATHS[@]}"; do
+        ROWS+="<tr>
+<td>$path</td>
+<td>${USAGE[$path]}</td>
+<td>${SPEED[$path]}</td>
+<td>${CAUSE[$path]}</td>
+</tr>"
+    done
+
+    HTML=$(echo "$HTML" | sed "s/{{ROWS}}/$ROWS/g")
+
+    echo "$HTML" | mail -a "Content-type: text/html" -s "Monitoring Report" "$EMAIL"
 }

@@ -1,57 +1,92 @@
+#!/bin/bash
+
 manage_lvm() {
 
-    # critical threshold
-    if [ "$CURRENT_USAGE" -lt 95 ]; then
+    path=$1
+
+    CURRENT=${USAGE[$path]}
+    CURRENT_CAUSE=${CAUSE[$path]}
+
+    LOG_FILE="/var/log/monitor.log"
+
+    # 🔹 seuil critique
+    if [ "$CURRENT" -lt 95 ]; then
         return
     fi
 
-    # securitary check
-    if [ "$CAUSE" = "BUG" ] || [ "$CAUSE" = "ATTACK" ]; then
-        echo "refused extension (BUG/ATTACK)" >> /var/log/monitor.log
+    # 🔹 sécurité (ne pas masquer bug/attaque)
+    if [ "$CURRENT_CAUSE" = "BUG" ] || [ "$CURRENT_CAUSE" = "ATTACK" ]; then
+        echo "$(date) - REFUSED LVM ($CURRENT_CAUSE) on $path" >> "$LOG_FILE"
         return
     fi
 
-    VG_NAME="vg_data"
-    LV_PATH="/dev/vg_data/lv_root"
+    # 🔹 récupérer le device (LV)
+    LV_PATH=$(df -h "$path" | awk 'NR==2 {print $1}')
 
-    # check free space in VG
-    VG_FREE=$(vgs --noheadings -o vg_free --units g $VG_NAME | tr -d ' g')
+    # 🔹 type filesystem
+    FS_TYPE=$(df -T "$path" | awk 'NR==2 {print $2}')
 
+    # 🔹 récupérer VG
+    VG_NAME=$(lvs --noheadings -o vg_name "$LV_PATH" | tr -d ' ')
+    VG_FREE=$(vgs --noheadings -o vg_free --units g "$VG_NAME" | tr -d ' g')
+
+    # 🔹 cas 1 : espace disponible dans VG
     if (( $(echo "$VG_FREE > 1" | bc -l) )); then
-        lvextend -L +1G $LV_PATH
-        resize2fs $LV_PATH
-        echo "LVM étendu (VG free)" >> /var/log/monitor.log
+
+        lvextend -L +1G "$LV_PATH"
+
+        if [ "$FS_TYPE" = "xfs" ]; then
+            xfs_growfs "$path"
+        else
+            resize2fs "$LV_PATH"
+        fi
+
+        echo "$(date) - LVM extended (VG free) on $path" >> "$LOG_FILE"
         return
     fi
 
-    #  multi-disk : search new disk
+    # 🔥 cas 2 : VG plein → chercher nouveau disque sécurisé
+
     for disk in $(lsblk -dn -o NAME,TYPE | grep disk | awk '{print $1}'); do
 
-        # skip if  disk is in PV
-        if pvs | grep -q "$disk"; then
+        DEV="/dev/$disk"
+
+        # skip si déjà utilisé par LVM
+        if pvs | grep -q "$DEV"; then
             continue
         fi
 
-        # skip if disk is mounted
-        if mount | grep -q "$disk"; then
+        # skip si monté
+        if mount | grep -q "$DEV"; then
             continue
         fi
 
-        NEW_DISK="/dev/$disk"
+        # skip si contient déjà un filesystem
+        if blkid "$DEV" >/dev/null 2>&1; then
+            continue
+        fi
+
+        NEW_DISK="$DEV"
         break
     done
 
+    # 🔹 aucun disque disponible
     if [ -z "$NEW_DISK" ]; then
-        echo "no available disk" >> /var/log/monitor.log
+        echo "$(date) - No safe disk available for $path" >> "$LOG_FILE"
         return
     fi
 
-    # disk found, add to VG and extend LV
-    pvcreate $NEW_DISK
-    vgextend $VG_NAME $NEW_DISK
+    # 🔹 ajout disque sécurisé
+    pvcreate "$NEW_DISK"
+    vgextend "$VG_NAME" "$NEW_DISK"
 
-    lvextend -L +5G $LV_PATH
-    resize2fs $LV_PATH
+    lvextend -L +5G "$LV_PATH"
 
-    echo "new disk added and extended" >> /var/log/monitor.log
+    if [ "$FS_TYPE" = "xfs" ]; then
+        xfs_growfs "$path"
+    else
+        resize2fs "$LV_PATH"
+    fi
+
+    echo "$(date) - New disk added and extended on $path ($NEW_DISK)" >> "$LOG_FILE"
 }
