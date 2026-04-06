@@ -6,7 +6,7 @@ source "$BASE_DIR/analyse_data.sh"
 source "$BASE_DIR/take_action.sh"
 source "$BASE_DIR/manage_lvm.sh"
 source "$BASE_DIR/send_mail.sh"
-# 🔹 variables globales
+# 🔹 variables globalesssssssss
 declare -A USAGE
 declare -A SPEED
 declare -A CAUSE
@@ -23,7 +23,7 @@ analyze_data
 
 take_action
 
-# 🔥 LVM uniquement si nécessaire
+#  LVM uniquement si nécessaire
 for path in "${PATHS[@]}"; do
     if [ "${CAUSE[$path]}" = "USER" ] || [ "${CAUSE[$path]}" = "LOG_CONFIG" ]; then
         manage_lvm "$path"
