@@ -13,7 +13,7 @@ declare -A CAUSE
 
 PATHS=("/" "/home" "/var")
 
-LOG_FILE="/var/log/monitor.log"
+LOG_FILE="/tmp/monitor.log"
 
 # 🔹 execution
 
