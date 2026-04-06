@@ -6,6 +6,7 @@ source "$BASE_DIR/analyse_data.sh"
 source "$BASE_DIR/action.sh"
 source "$BASE_DIR/manage_lvm.sh"
 source "$BASE_DIR/send_mail.sh"
+source "$BASE_DIR/template.html"
 # 🔹 variables globalesssssssss
 declare -A USAGE
 declare -A SPEED
