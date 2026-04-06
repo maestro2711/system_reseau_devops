@@ -1,12 +1,11 @@
 #!/bin/bash
-
+BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 # 🔹 charger modules
-source ./collect_data.sh
-source ./analyze_data.sh
-source ./take_action.sh
-source ./manage_lvm.sh
-source ./send_mail.sh
-
+source "$BASE_DIR/collecte_data.sh"
+source "$BASE_DIR/analyse_data.sh"
+source "$BASE_DIR/take_action.sh"
+source "$BASE_DIR/manage_lvm.sh"
+source "$BASE_DIR/send_mail.sh"
 # 🔹 variables globales
 declare -A USAGE
 declare -A SPEED
