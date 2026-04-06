@@ -1,3 +1,4 @@
+#!/bin/bash
 send_mail() {
 
     TEMPLATE="template.html"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config.sh
+#source config.sh
 source collect.sh
 source analyze.sh
 source action.sh
