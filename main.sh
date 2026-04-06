@@ -3,7 +3,7 @@ BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 # 🔹 charger modules
 source "$BASE_DIR/collecte_data.sh"
 source "$BASE_DIR/analyse_data.sh"
-source "$BASE_DIR/take_action.sh"
+source "$BASE_DIR/action.sh"
 source "$BASE_DIR/manage_lvm.sh"
 source "$BASE_DIR/send_mail.sh"
 # 🔹 variables globalesssssssss
