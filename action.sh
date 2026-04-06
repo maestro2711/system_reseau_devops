@@ -1,25 +1,47 @@
-action_take(){
-    case "$CAUSE" in
+#!/usr/bin/bash
+take_action() {
 
-    "USER")
-       # setquota -u <user> <soft> <hard> 0 0 /home
-        echo "User issue" >> /var/log/monitor.log
-        ;;
+    for path in "${PATHS[@]}"; do
 
-    "BUG")
-       # kill -9 <PID>
-        echo "BUG detected and terminated" >> /var/log/monitor.log
-        ;;
+        # sécuriser nom
+        if [ "$path" = "/" ]; then
+            SAFE_PATH="root"
+        else
+            SAFE_PATH=$(echo "$path" | tr -d '/')
+        fi
 
-    "ATTACK")
-        #iptables -A INPUT -s <IP> -j DROP
-        echo "Attack blocked from <IP>" >> /var/log/monitor.log
-        ;;
+        LOG_FILE="/var/tmp/monitor_$SAFE_PATH.log"
 
-    "LOG_CONFIG")
-        logrotate -f /etc/logrotate.conf
-        echo "Log configuration updated" >> /var/log/monitor.log
-        ;;
+        case "${CAUSE[$path]}" in
 
-esac
+            "USER")
+                echo "$(date) - USER issue on $path" >> "$LOG_FILE"
+                ;;
+
+            "BUG")
+                echo "$(date) - BUG detected on $path" >> "$LOG_FILE"
+                # ex: kill process (à améliorer)
+                ;;
+
+            "ATTACK")
+                echo "$(date) - ATTACK detected on $path" >> "$LOG_FILE"
+                # ex: iptables (à améliorer)
+                ;;
+
+            "LOG_CONFIG")
+                echo "$(date) - LOG issue on $path" >> "$LOG_FILE"
+                logrotate -f /etc/logrotate.conf
+                ;;
+
+            "OK")
+                echo "$(date) - OK on $path" >> "$LOG_FILE"
+                ;;
+
+            *)
+                echo "$(date) - UNKNOWN issue on $path" >> "$LOG_FILE"
+                ;;
+
+        esac
+
+    done
 }

@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 declare -A USAGE
 declare -A SPEED
+declare -A CAUSE
 collect_data() {
 
     PATHS=("/" "/home" "/var")
@@ -43,3 +44,4 @@ collect_data() {
 
     done
 }
+collect_data
