@@ -1,7 +1,9 @@
+#!/bin/bash
 send_mail() {
+    OUTPUT="/var/www/html/monitor.html"
 
     TEMPLATE="template.html"
-    EMAIL="asmitterand@yahoo.fr"
+    EMAIL="asmitterand@yahoo.fr"; "siandjipatrick@yahoo.fr"
 
     HTML=$(cat "$TEMPLATE")
 
@@ -20,6 +22,10 @@ send_mail() {
 
     # 🔥 remplacement sécurisé
     HTML=${HTML//\{\{ROWS\}\}/$ROWS}
+    # 🔥 écrire le fichier pour le web
+echo "$HTML" > "$OUTPUT"
+ sudo cp report.html /var/www/html/monitor.html
+
 
     echo "$HTML" | mail -a "Content-type: text/html" -s "Monitoring Report" "$EMAIL"
 }

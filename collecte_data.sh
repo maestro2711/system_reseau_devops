@@ -10,7 +10,7 @@ collect_data() {
 
     for path in "${PATHS[@]}"; do
 
-        # 🔹 sécuriser nom du path
+        #  sécuriser nom du path
         if [ "$path" = "/" ]; then
             SAFE_PATH="root"
         else
@@ -19,10 +19,10 @@ collect_data() {
 
         STATE_FILE="/var/tmp/monitor_$SAFE_PATH"
 
-        # 🔹 usage actuel
+        #  usage actuel
         CURRENT_USAGE=$(df -h "$path" | awk 'NR==2 {print $5}' | tr -d '%')
 
-        # 🔹 usage précédent
+        #  usage précédent
         PREVIOUS_USAGE=$(cat "$STATE_FILE" 2>/dev/null)
 
         if [ -z "$PREVIOUS_USAGE" ]; then
