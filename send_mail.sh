@@ -24,7 +24,7 @@ send_mail() {
     HTML=${HTML//\{\{ROWS\}\}/$ROWS}
     # 🔥 écrire le fichier pour le web
 echo "$HTML" > "$OUTPUT"
- sudo cp report.html /var/www/html/monitor.html
+
 
 
     echo "$HTML" | mail -a "Content-type: text/html" -s "Monitoring Report" "$EMAIL"
