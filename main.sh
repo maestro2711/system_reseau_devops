@@ -40,3 +40,6 @@ for path in "${PATHS[@]}"; do
 done
 
 echo "$(date) - Run completed" >> "$LOG_FILE"
+echo "DEBUG START" >> /tmp/debug.log
+pwd >> /tmp/debug.log
+whoami >> /tmp/debug.log
