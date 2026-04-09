@@ -2,8 +2,9 @@
 send_mail() {
     OUTPUT="/var/www/html/monitor.html"
 
-    TEMPLATE="template.html"
-    EMAIL="asmitterand@yahoo.fr"; "siandjipatrick@yahoo.fr"
+    BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
+    TEMPLATE="$BASE_DIR/template.html"
+    EMAIL="asmitterand@yahoo.fr"; 
 
     HTML=$(cat "$TEMPLATE")
 
@@ -24,6 +25,7 @@ send_mail() {
     HTML=${HTML//\{\{ROWS\}\}/$ROWS}
     # 🔥 écrire le fichier pour le web
 echo "$HTML" > "$OUTPUT"
+echo "TEMPLATE=$TEMPLATE" >> /tmp/debug.log
 
 
 
