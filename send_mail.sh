@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-IFS=$'\n\t
+IFS=$'\n\t'
 send_mail() {
     OUTPUT="/var/www/html/monitor.html"
 
