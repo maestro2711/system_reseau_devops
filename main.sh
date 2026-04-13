@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"
 # 🔹 charger modules
 source "$BASE_DIR/collecte_data.sh"

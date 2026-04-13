@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t
     analyze_data() {
 
     for path in "${PATHS[@]}"; do

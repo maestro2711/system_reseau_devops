@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+set -euo pipefail
+IFS=$'\n\t
 declare -A USAGE
 declare -A SPEED
 declare -A CAUSE

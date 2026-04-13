@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+set -euo pipefail
+IFS=$'\n\t
 take_action() {
 
     for path in "${PATHS[@]}"; do
