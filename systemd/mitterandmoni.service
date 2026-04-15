@@ -1,0 +1,12 @@
+[Unit]
+Description=Monitoring intelligent disque/CPU/RAM
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/monitoring/main.sh
+User=mitterand
+Group=mitterand
+
+[Install]
+WantedBy=multi-user.target
